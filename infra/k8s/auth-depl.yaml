@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authapi
+  template:
+    metadata:
+      labels:
+        app: authapi
+    spec:
+      containers:
+        - name: authapi
+          image: kesarwanishashwat/ticketing-authapi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authapi-serv
+spec:
+  selector:
+    app: authapi
+  ports:
+    - name: authapi
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
