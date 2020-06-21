@@ -15,7 +15,12 @@ spec:
       containers:
         - name: authapi
           image: kesarwanishashwat/ticketing-authapi
-
+          env:
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ticketing-jwt-secret
+                  key: JWT_KEY
 ---
 apiVersion: v1
 kind: Service
