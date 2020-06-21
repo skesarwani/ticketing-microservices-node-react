@@ -1,20 +1,10 @@
 import request from 'supertest';
-import { app } from '../../app/app';
+import { app } from '../../../app/app';
 
-
-it('returns 201 on successful signup', async () => {
-    return request(app)
-        .post('/api/users/signup')
-        .send({
-            email: 'test@test.com',
-            password: 'password'
-        })
-        .expect(201);
-});
 
 it('returns 400 on invalid email', async () => {
     return request(app)
-        .post('/api/users/signup')
+        .post('/api/users/signin')
         .send({
             email: 'test1',
             password: 'password'
@@ -22,58 +12,68 @@ it('returns 400 on invalid email', async () => {
         .expect(400);
 });
 
-it('returns 400 on invalid password', async () => {
-    return request(app)
-        .post('/api/users/signup')
-        .send({
-            email: 'test@test.com',
-            password: 'p'
-        })
-        .expect(400);
-});
 
 it('returns 400 with missing email or password', async () => {
     await request(app)
-        .post('/api/users/signup')
+        .post('/api/users/signin')
         .send({
             email: 'test@test.com'
         })
         .expect(400);
-    
+
     await request(app)
-        .post('/api/users/signup')
+        .post('/api/users/signin')
         .send({
             password: 'testing'
         })
         .expect(400);
 });
 
-it('disallows duplicate emails', async () => {
-    await request(app)
-        .post('/api/users/signup')
+it('fails for a not existing email', async () => {
+    return request(app)
+        .post('/api/users/signin')
         .send({
-            email: 'test@test.com',
-            password: 'password'
-        })
-        .expect(201);
-    
-    await request(app)
-        .post('/api/users/signup')
-        .send({
-            email: 'test@test.com',
+            email: 'test1@test.com',
             password: 'password'
         })
         .expect(400);
 });
 
-it('sets a cookie after successful signup', async () => {
-    const response = await request(app)
+it('fails when incorrect password is supplied', async () => {
+    await request(app)
         .post('/api/users/signup')
         .send({
             email: 'test@test.com',
             password: 'password'
         })
         .expect(201);
-    
-    expect(response.get('Set-Cookie')).toBeDefined();
+
+
+    return request(app)
+        .post('/api/users/signin')
+        .send({
+            email: 'test@test.com',
+            password: 'password1'
+        })
+        .expect(400);
+});
+
+it('responds with valid cookie with correct credentials', async () => {
+    await request(app)
+        .post('/api/users/signup')
+        .send({
+            email: 'test@test.com',
+            password: 'password'
+        })
+        .expect(201);
+
+
+    const res = await request(app)
+        .post('/api/users/signin')
+        .send({
+            email: 'test@test.com',
+            password: 'password'
+        })
+        .expect(200);
+    expect(res.get('Set-Cookie')).toBeDefined();
 });
