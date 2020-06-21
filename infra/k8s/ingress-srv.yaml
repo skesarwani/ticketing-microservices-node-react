@@ -15,3 +15,7 @@ spec:
             backend:
               serviceName: authapi-serv
               servicePort: 3000
+          - path: /?(.*)
+            backend:
+              serviceName: client-serv
+              servicePort: 3000
