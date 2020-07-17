@@ -1,5 +1,5 @@
 import { User } from "../models/user";
-import { BadRequestError } from "../models/errors/bad-request-error";
+import { BadRequestError } from "@skticketing/common";
 import { Password } from "../services/password";
 import { IUserDoc } from "../models/contracts/user-contracts";
 

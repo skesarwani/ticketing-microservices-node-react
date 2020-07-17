@@ -1,6 +1,6 @@
 import express from 'express';
 import { userRouting } from './routes/user-routing'
-import { NotFoundError } from './models/errors/not-found-error';
+import { NotFoundError } from '@skticketing/common';
 const router = express.Router();
 
 router.use('/users', userRouting);

@@ -3,8 +3,7 @@ import { body } from 'express-validator';
 const router = express.Router();
 
 import { UserController } from '../controllers/user-controller';
-import { validateRequest } from '../middlewares/validate-request';
-import { currentUser } from '../middlewares/current-user';
+import { validateRequest, currentUser } from '@skticketing/common';
 
 
 router.get('/currentuser', currentUser, (req: Request, res: Response) => {

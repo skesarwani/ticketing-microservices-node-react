@@ -4,7 +4,7 @@ import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 
 import { routing } from './routing';
-import { errorHandler } from './middlewares/error-handler';
+import { errorHandler } from '@skticketing/common';
 const app = express();
 app.set('trust proxy', true);
 app.use(json());
