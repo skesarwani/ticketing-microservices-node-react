@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-depl
+  name: tickets-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: authapi
+      app: ticketsapi
   template:
     metadata:
       labels:
-        app: authapi
+        app: ticketsapi
     spec:
       containers:
-        - name: authapi
-          image: kesarwanishashwat/ticketing-authapi
+        - name: ticketsapi
+          image: kesarwanishashwat/ticketing-ticketsapi
           env:
             - name: MONGO_URI
-              value: 'mongodb://auth-mongo-srv:27017/auth'
+              value: 'mongodb://tickets-mongo-srv:27017/tickets'
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
@@ -27,12 +27,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: authapi-serv
+  name: ticketsapi-serv
 spec:
   selector:
-    app: authapi
+    app: ticketsapi
   ports:
-    - name: authapi
+    - name: ticketsapi
       protocol: TCP
       port: 3000
       targetPort: 3000

@@ -15,6 +15,10 @@ spec:
             backend:
               serviceName: authapi-serv
               servicePort: 3000
+          - path: /api/tickets/?(.*)
+            backend:
+              serviceName: ticketsapi-serv
+              servicePort: 3000
           - path: /?(.*)
             backend:
               serviceName: client-serv
